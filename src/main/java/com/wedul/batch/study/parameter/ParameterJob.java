@@ -9,6 +9,7 @@ import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.CompositeJobParametersValidator;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,8 +30,11 @@ public class ParameterJob {
     @Bean
     public Job job(@Qualifier("parameterStep") Step step) {
         return this.jobBuilderFactory.get("parameterJob")
+//            .incrementer(new RunIdIncrementer())
+            .incrementer(new DailyJobTimestamper())
             .start(step)
             .validator(validator())
+            .listener(new JobLoggerListener())
             .build();
     }
 
