@@ -1,4 +1,8 @@
 spring:
+  batch:
+    job:
+      enabled: false
+      names: ${job.name:NONE}
   profiles:
     group:
       "dev": "beta"
