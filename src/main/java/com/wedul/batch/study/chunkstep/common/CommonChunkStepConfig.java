@@ -16,29 +16,32 @@ import java.util.UUID;
 public class CommonChunkStepConfig {
 
     @Bean
-    public Step commonChunkStep(StepBuilderFactory stepBuilderFactory) {
+    public Step commonChunkStep(StepBuilderFactory stepBuilderFactory,
+                                ListItemReader<String> commonChunkItemReader,
+                                ItemWriter<String> commonChunkItemWriter
+                                ) {
         return stepBuilderFactory.get("commonChunkStep")
             .<String, String>chunk(1000)
-            .reader(itemReader())
-            .writer(itemWriter())
+            .reader(commonChunkItemReader)
+            .writer(commonChunkItemWriter)
             .listener(new StepStartStopListener())
             .build();
     }
 
     // 한번에 읽고
-    public ListItemReader<String> itemReader() {
+    @Bean
+    public ListItemReader<String> commonChunkItemReader() {
         List<String> items = new ArrayList<>(100000);
 
         for (int i = 0; i< 10000; i++) {
             items.add(UUID.randomUUID().toString());
-            System.out.println(">> current read item idx = " + i);
         }
-
         return new ListItemReader<>(items);
     }
 
     // 나눠서 쓰기 (chunk 단위)
-    public ItemWriter<String> itemWriter() {
+    @Bean
+    public ItemWriter<String> commonChunkItemWriter() {
         return items -> {
             for (String item : items) {
                 System.out.println(">> current write item = " + item);

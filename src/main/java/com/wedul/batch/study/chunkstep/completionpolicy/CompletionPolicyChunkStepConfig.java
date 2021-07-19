@@ -35,7 +35,6 @@ public class CompletionPolicyChunkStepConfig {
 
         for (int i = 0; i< 10000; i++) {
             items.add(UUID.randomUUID().toString());
-            System.out.println(">> current read item idx = " + i);
         }
 
         return new ListItemReader<>(items);

@@ -11,6 +11,8 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -24,6 +26,7 @@ public class BatchScheduledJob extends QuartzJobBean {
     protected void executeInternal(JobExecutionContext context) {
         JobParameters jobParameters = new JobParametersBuilder(jobExplorer)
             .getNextJobParameters(quartzJob)
+            .addDate("toda", new Date())
             .toJobParameters();
 
         try {

@@ -46,7 +46,9 @@ public class QuartzJobConfiguration {
 
     @Bean
     public Trigger jobTrigger(JobDetail quartzJobDetail) {
-        SimpleScheduleBuilder simpleScheduleBuilder = SimpleScheduleBuilder.simpleSchedule().withIntervalInMilliseconds(5).withRepeatCount(4);
+        SimpleScheduleBuilder simpleScheduleBuilder = SimpleScheduleBuilder.simpleSchedule().
+            withIntervalInMilliseconds(5).
+            withRepeatCount(0);
 
         return TriggerBuilder.newTrigger()
             .forJob(quartzJobDetail)
